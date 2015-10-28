@@ -17,14 +17,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>de.codecentric</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>movie-database-commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.2.0.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>de.codecentric</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>movie-database-security</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.2.0.RELEASE</version>
 		</dependency>
 		<dependency>
 		    <groupId>de.codecentric</groupId>
