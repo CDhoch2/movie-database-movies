@@ -8,8 +8,10 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.2.0.RELEASE</version>
 	</parent>
-
+	
+	<groupId>de.codecentric</groupId>
 	<artifactId>movie-database-commons</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>movie-database-commons</name>

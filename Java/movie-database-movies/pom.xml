@@ -9,7 +9,9 @@
 		<version>1.2.0.RELEASE</version>
 	</parent>
 
+	<groupId>de.codecentric</groupId>
 	<artifactId>movie-database-movies</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>movie-database-movies</name>
@@ -17,14 +19,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>de.codecentric</groupId>
 			<artifactId>movie-database-commons</artifactId>
-			<version>1.2.0.RELEASE</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>de.codecentric</groupId>
 			<artifactId>movie-database-security</artifactId>
-			<version>1.2.0.RELEASE</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 		    <groupId>de.codecentric</groupId>
