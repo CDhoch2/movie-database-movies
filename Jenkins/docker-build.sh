@@ -2,5 +2,5 @@
 
 cd ../movie-database-movies
 
-# Docker Build Actors
+# Docker Build Movies
 sudo /home/ec2-user/docker-latest build --tag="cdzwei/mvdb_movies" .
