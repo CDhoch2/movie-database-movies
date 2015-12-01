@@ -36,7 +36,7 @@ public class Movie {
 	}
 
 	public String getTitle() {
-		return title;
+		return null;
 	}
 
 	public String getDescription() {
