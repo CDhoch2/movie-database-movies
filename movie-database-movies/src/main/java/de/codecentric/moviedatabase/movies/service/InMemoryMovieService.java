@@ -42,6 +42,17 @@ public class InMemoryMovieService implements MovieService {
 		Tag tag = new Tag("Science Fiction");
 		movie.getTags().add(tag);
 		createMovie(movie);
+		
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aef"),
+				"Batman v Superman","Dawn of Justice",
+				new Date());
+		tag = new Tag("Heroes");
+		movie.getTags().add(tag);
+		createMovie(movie);
+
+
+
+		
 	}
 	
 	@Override
