@@ -50,29 +50,31 @@ public class InMemoryMovieService implements MovieService {
 		movie.getTags().add(tag);
 		createMovie(movie);
 
-		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeg"), "The Martian", "BRING HIM HOME",
-				new GregorianCalendar(2015, 10, 8).getTime());
-		tag = new Tag("Science Fiction");
+		movie = new Movie(UUID.fromString("69e550ba-ac8e-4620-bf1b-0792d3854938"),  "The Martian",
+				"BRING HIM HOME", new Date());
+		tag = new Tag("Adventures");
 		movie.getTags().add(tag);
+		createMovie(movie);
+		
+		movie = new Movie(UUID.fromString("90328daf-be53-4956-98a6-76668b9da6e1"), "The Martian", "BRING HIM HOME",
+				new Date());
 		tag = new Tag("Adventure");
-		movie.getTags().add(tag);
-		tag = new Tag("Drama");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
-		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeh"), "Silver Linings Playbook", "",
+		movie = new Movie(UUID.fromString("fbcc657d-eb8e-4af7-8bb7-9665247c8c94"), "Silver Linings Playbook", "",
 				new GregorianCalendar(2013, 1, 3).getTime());
 		tag = new Tag("Drama");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
-		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aei"), "The Revenant", "",
+		movie = new Movie(UUID.fromString("3ca4e76d-a041-4ddf-aeed-4fc360efd31a"), "The Revenant", "",
 				new GregorianCalendar(2016, 1, 14).getTime());
 		tag = new Tag("Western");
 		movie.getTags().add(tag);
 		createMovie(movie);
 		
-		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aej"), "Kingsman: The Secret Service", "",
+		movie = new Movie(UUID.fromString("c62c680d-a71a-4327-b931-5ad126c936ea"), "Kingsman: The Secret Service", "",
 				new GregorianCalendar(2015, 3, 12).getTime());
 		tag = new Tag("Action");
 		movie.getTags().add(tag);
