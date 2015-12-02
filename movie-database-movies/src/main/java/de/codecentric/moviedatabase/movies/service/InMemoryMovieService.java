@@ -38,27 +38,21 @@ public class InMemoryMovieService implements MovieService {
 		this.objectMapper = objectMapper;
 		// let the dummy Movie have always the same ID to test it easily via
 		// command line tools / unit tests
-		Movie movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeb"), "Star Wars",
-				"In einer Galaxie weit, weit entfernt", new Date());
+		Movie movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeb"), "Star Wars: The Force Awakens",
+				"In einer Galaxie weit, weit entfernt", new GregorianCalendar(2015, 12, 17).getTime());
 		Tag tag = new Tag("Science Fiction");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
 		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aef"), "Batman v Superman: Dawn of Justice",
-				"Classic heroes movie", new Date());
+				"Classic heroes movie", new GregorianCalendar(2016, 3, 24).getTime());
 		tag = new Tag("Heroes");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
-		movie = new Movie(UUID.fromString("69e550ba-ac8e-4620-bf1b-0792d3854938"),  "The Martian",
-				"BRING HIM HOME", new Date());
+		movie = new Movie(UUID.fromString("69e550ba-ac8e-4620-bf1b-0792d3854938"), "The Martian", "BRING HIM HOME",
+				new GregorianCalendar(2015, 10, 8).getTime());
 		tag = new Tag("Adventures");
-		movie.getTags().add(tag);
-		createMovie(movie);
-		
-		movie = new Movie(UUID.fromString("90328daf-be53-4956-98a6-76668b9da6e1"), "The Martian", "BRING HIM HOME",
-				new Date());
-		tag = new Tag("Adventure");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
@@ -73,7 +67,7 @@ public class InMemoryMovieService implements MovieService {
 		tag = new Tag("Western");
 		movie.getTags().add(tag);
 		createMovie(movie);
-		
+
 		movie = new Movie(UUID.fromString("c62c680d-a71a-4327-b931-5ad126c936ea"), "Kingsman: The Secret Service", "",
 				new GregorianCalendar(2015, 3, 12).getTime());
 		tag = new Tag("Action");
