@@ -3,6 +3,7 @@ package de.codecentric.moviedatabase.movies.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -25,43 +26,67 @@ import de.codecentric.moviedatabase.movies.events.MovieEventType;
 import de.codecentric.moviedatabase.movies.exception.ResourceNotFoundException;
 
 public class InMemoryMovieService implements MovieService {
-	
+
 	private StringRedisTemplate redisTemplate;
 	private ObjectMapper objectMapper;
-	
+
 	private Map<UUID, Movie> idToMovieMap = new ConcurrentHashMap<UUID, Movie>();
 	private Map<Tag, Set<Movie>> tagToMoviesMap = new ConcurrentHashMap<Tag, Set<Movie>>();
-	
-	public InMemoryMovieService(StringRedisTemplate redisTemplate, ObjectMapper objectMapper){
+
+	public InMemoryMovieService(StringRedisTemplate redisTemplate, ObjectMapper objectMapper) {
 		this.redisTemplate = redisTemplate;
 		this.objectMapper = objectMapper;
-		// let the dummy Movie have always the same ID to test it easily via command line tools / unit tests
-		Movie movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeb"),
-				"Star Wars","In einer Galaxie weit, weit entfernt",
-				new Date());
+		// let the dummy Movie have always the same ID to test it easily via
+		// command line tools / unit tests
+		Movie movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeb"), "Star Wars",
+				"In einer Galaxie weit, weit entfernt", new Date());
 		Tag tag = new Tag("Science Fiction");
 		movie.getTags().add(tag);
 		createMovie(movie);
-		
-		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aef"),
-				"Batman v Superman","Dawn of Justice",
-				new Date());
+
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aef"), "Batman v Superman: Dawn of Justice",
+				"Classic heroes movie", new Date());
 		tag = new Tag("Heroes");
 		movie.getTags().add(tag);
 		createMovie(movie);
 
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeg"), "The Martian", "BRING HIM HOME",
+				new GregorianCalendar(2015, 10, 8).getTime());
+		tag = new Tag("Science Fiction");
+		movie.getTags().add(tag);
+		tag = new Tag("Adventure");
+		movie.getTags().add(tag);
+		tag = new Tag("Drama");
+		movie.getTags().add(tag);
+		createMovie(movie);
 
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aeh"), "Silver Linings Playbook", "",
+				new GregorianCalendar(2013, 1, 3).getTime());
+		tag = new Tag("Drama");
+		movie.getTags().add(tag);
+		createMovie(movie);
 
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aei"), "The Revenant", "",
+				new GregorianCalendar(2016, 1, 14).getTime());
+		tag = new Tag("Western");
+		movie.getTags().add(tag);
+		createMovie(movie);
 		
+		movie = new Movie(UUID.fromString("240342ea-84c8-415f-b1d5-8e4376191aej"), "Kingsman: The Secret Service", "",
+				new GregorianCalendar(2015, 3, 12).getTime());
+		tag = new Tag("Action");
+		movie.getTags().add(tag);
+		createMovie(movie);
+
 	}
-	
+
 	@Override
 	public void createMovie(Movie movie) {
 		Assert.notNull(movie);
 		idToMovieMap.put(movie.getId(), movie);
-		for (Tag tag: movie.getTags()){
+		for (Tag tag : movie.getTags()) {
 			Set<Movie> movies = tagToMoviesMap.get(tag);
-			if (movies == null){
+			if (movies == null) {
 				movies = new HashSet<Movie>();
 			}
 			movies.add(movie);
@@ -72,10 +97,10 @@ public class InMemoryMovieService implements MovieService {
 
 	private void sendNotification(Movie movie, MovieEventType eventType) {
 		try {
-			String object = objectMapper.writeValueAsString(new MovieEvent(eventType,movie));
+			String object = objectMapper.writeValueAsString(new MovieEvent(eventType, movie));
 			redisTemplate.convertAndSend("movieChannel", object);
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Problem with Redis topic.",e);
+			throw new RuntimeException("Problem with Redis topic.", e);
 		}
 	}
 
@@ -91,7 +116,7 @@ public class InMemoryMovieService implements MovieService {
 	public void deleteMovie(UUID id) {
 		Assert.notNull(id);
 		Movie movie = idToMovieMap.remove(id);
-		for (Set<Movie> movies: tagToMoviesMap.values()){
+		for (Set<Movie> movies : tagToMoviesMap.values()) {
 			movies.remove(movie);
 		}
 	}
@@ -101,7 +126,7 @@ public class InMemoryMovieService implements MovieService {
 		Assert.notNull(comment);
 		Assert.notNull(movieId);
 		Movie movie = idToMovieMap.get(movieId);
-		if (movie == null){
+		if (movie == null) {
 			throw new ResourceNotFoundException("Movie not found.");
 		}
 		movie.getComments().add(comment);
@@ -113,12 +138,12 @@ public class InMemoryMovieService implements MovieService {
 		Assert.hasText(tag.getLabel());
 		Assert.notNull(movieId);
 		Movie movie = idToMovieMap.get(movieId);
-		if (movie == null){
+		if (movie == null) {
 			throw new ResourceNotFoundException("Movie not found.");
 		}
 		movie.getTags().add(tag);
 		Set<Movie> movies = tagToMoviesMap.get(tag);
-		if (movies == null){
+		if (movies == null) {
 			movies = new HashSet<Movie>();
 		}
 		movies.add(movie);
@@ -130,12 +155,12 @@ public class InMemoryMovieService implements MovieService {
 		Assert.notNull(tag);
 		Assert.notNull(movieId);
 		Movie movie = idToMovieMap.get(movieId);
-		if (movie == null){
+		if (movie == null) {
 			throw new ResourceNotFoundException("Movie not found.");
 		}
 		movie.getTags().remove(tag);
 		Set<Movie> movies = tagToMoviesMap.get(tag);
-		if (movies != null){
+		if (movies != null) {
 			movies.remove(movie);
 		}
 	}
@@ -144,38 +169,39 @@ public class InMemoryMovieService implements MovieService {
 	public Movie findMovieById(UUID id) {
 		Assert.notNull(id);
 		Movie movie = idToMovieMap.get(id);
-		if (movie == null){
+		if (movie == null) {
 			throw new ResourceNotFoundException("Movie not found.");
 		}
 		return movie;
 	}
 
 	@Override
-	public List<Movie> findMovieByTagsAndSearchString(Set<Tag> tags,
-			Set<String> searchWords) {
+	public List<Movie> findMovieByTagsAndSearchString(Set<Tag> tags, Set<String> searchWords) {
 		Set<Movie> taggedMovies = new HashSet<Movie>();
 		List<Movie> searchResult = new ArrayList<Movie>();
-		if (tags == null || tags.isEmpty()){
+		if (tags == null || tags.isEmpty()) {
 			taggedMovies = new HashSet<Movie>(idToMovieMap.values());
 		} else {
-			for (Tag tag: tags){
+			for (Tag tag : tags) {
 				Collection<Movie> movies = tagToMoviesMap.get(tag);
-				if (movies != null){
+				if (movies != null) {
 					taggedMovies.addAll(tagToMoviesMap.get(tag));
 				}
 			}
 		}
 		searchResult.addAll(taggedMovies);
-		if (searchWords != null && !searchWords.isEmpty()){
-			for (String searchWord: searchWords){
-				for (Iterator<Movie> it = searchResult.iterator();it.hasNext();){
+		if (searchWords != null && !searchWords.isEmpty()) {
+			for (String searchWord : searchWords) {
+				for (Iterator<Movie> it = searchResult.iterator(); it.hasNext();) {
 					Movie movie = it.next();
-					if (!(movie.getTitle().toLowerCase().contains(searchWord.toLowerCase())) && !(movie.getDescription() != null && movie.getDescription().toLowerCase().contains(searchWord.toLowerCase()))){
+					if (!(movie.getTitle().toLowerCase().contains(searchWord.toLowerCase()))
+							&& !(movie.getDescription() != null
+									&& movie.getDescription().toLowerCase().contains(searchWord.toLowerCase()))) {
 						it.remove();
 					}
 				}
 			}
-		} 
+		}
 		return searchResult;
 	}
 
